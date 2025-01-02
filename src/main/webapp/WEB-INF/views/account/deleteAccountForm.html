@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{account/layout :: head}"></head>
+<body>
+    <nav th:replace="~{account/layout :: nav}"></nav>
+    
+    <main th:fragment="content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Xác nhận xóa tài khoản</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Bạn có chắc chắn muốn xóa tài khoản này không?
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="row mb-2">
+                            <div class="col-md-3 fw-bold">Mã tài khoản:</div>
+                            <div class="col-md-9" th:text="${account.accountId}">ID</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 fw-bold">Tên tài khoản:</div>
+                            <div class="col-md-9" th:text="${account.accountName}">Name</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 fw-bold">Email:</div>
+                            <div class="col-md-9" th:text="${account.accountEmail}">Email</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <form th:action="@{/deleteAccountAction/{id}(id=${account.accountId})}" method="post">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash me-1"></i> Xác nhận xóa
+                            </button>
+                        </form>
+                        <a th:href="@{/listAccount}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Hủy bỏ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{account/layout :: footer}"></footer>
+</body>
+</html>

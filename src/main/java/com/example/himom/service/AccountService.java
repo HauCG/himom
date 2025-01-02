@@ -9,9 +9,15 @@ public interface AccountService {
 
     Account getAccountByAccountId(String accountId);
 
+    Account getAccountByAccountEmail(String accountId);
+
+    String autoCreateAccountId();
+
     Boolean createNewAccount(Account newAccount);
 
     Boolean updateAccount(Account updatedAccount);
 
     Boolean deleteAccountById(String accountId);
+
+    Boolean checkRightEmailToRetakeAccount(String accountEmail);
 }

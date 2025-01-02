@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{account/layout :: head}"></head>
+<body>
+    <nav th:replace="~{account/layout :: nav}"></nav>
+    
+    <main th:fragment="content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Lấy lại tài khoản qua Email</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Alert for error message -->
+                    <div class="alert alert-danger" role="alert" th:if="${errorMessage}" th:text="${errorMessage}">
+                        Error message goes here
+                    </div>
+                    
+                    <form th:action="@{/retakeAccountByEmailFormAction}" th:object="${account}" method="post" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="accountEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="accountEmail" th:field="*{accountEmail}" required />
+                            <div class="invalid-feedback">
+                                Vui lòng nhập email hợp lệ
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Gửi yêu cầu
+                            </button>
+                            <a th:href="@{/listAccount}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Quay lại
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{account/layout :: footer}"></footer>
+    
+    <!-- Form validation script -->
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>
