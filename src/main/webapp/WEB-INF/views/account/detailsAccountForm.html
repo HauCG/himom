@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+
+<head th:replace="/layout :: head">
+    <title>Chi tiết tài khoản - Hau Hi Mom</title>
+</head>
+
+<body>
+<header>
+    <h3>Chi tiết tài khoản</h3>
+</header>
+
+<main>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h5>Thông tin chi tiết</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Mã tài khoản:</div>
+                    <div class="col-md-9" th:text="${account.accountId}">ID</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Tên tài khoản:</div>
+                    <div class="col-md-9" th:text="${account.accountName}">Name</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Email:</div>
+                    <div class="col-md-9" th:text="${account.accountEmail}">Email</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Mật khẩu:</div>
+                    <div class="col-md-9" th:text="${account.accountPassword}">Password</div>
+                </div>
+                <div class="d-grid gap-2">
+                    <a th:href="@{/updateAccountForm/{id}(id=${account.accountId})}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Cập nhật thông tin
+                    </a>
+                    <a th:href="@{/listAccount}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Quay lại danh sách
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="/layout :: footer">
+</footer>
+</body>
+
+</html>

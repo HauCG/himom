@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{account/layout :: head}"></head>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="/layout :: head">
+    <title>Lấy lại tài khoản - Hau Hi Mom</title>
+</head>
 <body>
-    <nav th:replace="~{account/layout :: nav}"></nav>
+    <header>
+        <h3>Lấy lại tài khoản</h3>
+    </header>
     
     <main th:fragment="content">
         <div class="container">
@@ -16,7 +20,7 @@
                         Error message goes here
                     </div>
                     
-                    <form th:action="@{/retakeAccountByEmailFormAction}" th:object="${account}" method="post" class="needs-validation" novalidate>
+                    <form th:action="@{/retakeAccountByEmailFormAction}" th:object="${account}" method="post" class="needs-validation" novalidate id="form">
                         <div class="mb-3">
                             <label for="accountEmail" class="form-label">Email</label>
                             <input type="email" class="form-control" id="accountEmail" th:field="*{accountEmail}" required />
@@ -25,7 +29,7 @@
                             </div>
                         </div>
                         
-                        <div class="d-flex gap-2">
+                        <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-paper-plane"></i> Gửi yêu cầu
                             </button>
@@ -39,7 +43,8 @@
         </div>
     </main>
 
-    <footer th:replace="~{account/layout :: footer}"></footer>
+    <footer th:replace="/layout :: footer">
+    </footer>
     
     <!-- Form validation script -->
     <script>

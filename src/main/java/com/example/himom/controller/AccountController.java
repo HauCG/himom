@@ -41,10 +41,11 @@ public class AccountController {
         return "account/registerAccountForm";
     }
 
-    @PostMapping("/registerAction")
-    public ModelAndView registerAction(Account account) {
+    @PostMapping("/registerAccountAction")
+    public String registerAccountAction(@ModelAttribute Account account, Model model) {
+        // Validate and save account
         accountService.createNewAccount(account);
-        return new ModelAndView("redirect:/listAccount");
+        return "redirect:/listAccount";
     }
 
 
@@ -59,16 +60,15 @@ public class AccountController {
     }
 
     @PostMapping("/updateAccountAction")
-    public ModelAndView updateAccountAction(Account account) {
-
-        boolean isUpdated = accountService.updateAccount(account);
-
-
-        if (isUpdated) {
-            return new ModelAndView("redirect:/listAccount");
-        } else {
-            return new ModelAndView("redirect:/errorPage");
+    public String updateAccountAction(@ModelAttribute Account account, @RequestParam(required = false) String newPassword) {
+        Account existingAccount = accountService.getAccountByAccountId(account.getAccountId());
+        if (existingAccount != null) {
+            account.setAccountPassword(newPassword != null && !newPassword.isEmpty() 
+                ? newPassword 
+                : existingAccount.getAccountPassword());
+            accountService.updateAccount(account);
         }
+        return "redirect:/listAccount";
     }
 
     @GetMapping("/detailsAccountForm/{accountId}")
@@ -93,14 +93,10 @@ public class AccountController {
     }
 
 
-    @PostMapping("/deleteAccountAction/{accountId}")
-    public ModelAndView deleteAccountAction(@PathVariable("accountId") String accountId) {
-        boolean isDeleted = accountService.deleteAccountById(accountId);
-        if (isDeleted) {
-            return new ModelAndView("redirect:/listAccount");
-        } else {
-            return new ModelAndView("redirect:/errorPage");
-        }
+    @PostMapping("/deleteAccountAction")
+    public String deleteAccountAction(@RequestParam String accountId) {
+        accountService.deleteAccountById(accountId);
+        return "redirect:/listAccount";
     }
 
 
@@ -129,18 +125,23 @@ public class AccountController {
 
     @GetMapping("/changePasswordForm")
     public String showChangePasswordForm(@RequestParam("email") String accountEmail, Model model) {
-        System.out.println("Received email in showChangePasswordForm: " + accountEmail);
         Account account = accountService.getAccountByAccountEmail(accountEmail);
-        System.out.println("Found account: " + account);
-        
-        if (account == null) {
-            return "redirect:/errorPage";
+        if (account != null) {
+            model.addAttribute("email", accountEmail);
+            return "account/changePasswordForm";
         }
-        model.addAttribute("account", account);
-        return "account/changePasswordForm";
+        return "redirect:/listAccount";
     }
 
-
+    @PostMapping("/changePasswordAction")
+    public String changePasswordAction(@RequestParam String email, @RequestParam String newPassword) {
+        Account account = accountService.getAccountByAccountEmail(email);
+        if (account != null) {
+            account.setAccountPassword(newPassword);
+            accountService.updateAccount(account);
+        }
+        return "redirect:/listAccount";
+    }
 
     @PostMapping("/updateAccountPasswordAction")
     public String updateAccountPasswordAction(@RequestParam("accountEmail") String accountEmail,
